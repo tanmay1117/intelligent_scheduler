@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Smart Schedule (Mock View)</h2>
+<ul>
+    {% for task in schedule %}
+    <li>{{ task.name }} - Duration: {{ task.duration }} mins</li>
+    {% else %}
+    <li>No schedule available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

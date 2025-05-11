@@ -1,23 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Add a New Task</h2>
-<form method="POST" action="{{ url_for('add_task') }}">
-    <input name="name" placeholder="Task Name" required>
-    <input name="priority" type="number" placeholder="Priority (1-5)" required>
-    <input name="duration" type="number" placeholder="Duration (minutes)" required>
-    <input name="energy" type="number" placeholder="Energy Level (1-5)" required>
-    <input name="deadline" type="date" required>
-    <button type="submit">Add Task</button>
-</form>
+<div class="card">
+    <h2>Add a New Task</h2>
+    <form method="POST" action="{{ url_for('add_task') }}">
+        <input name="name" placeholder="Task Name" required>
+        <input name="priority" type="number" placeholder="Priority (1-5)" required>
+        <input name="duration" type="number" placeholder="Duration (minutes)" required>
+        <input name="energy" type="number" placeholder="Energy Level (1-5)" required>
+        <input name="deadline" type="date" required>
+        <button type="submit">Add Task</button>
+    </form>
+</div>
 
-<h2>Current Tasks</h2>
-<ul>
-    {% for task in tasks %}
-    <li>
-        <strong>{{ task.name }}</strong> | Priority: {{ task.priority }} | Duration: {{ task.duration }} mins | Energy: {{ task.energy }} | Deadline: {{ task.deadline }}
-    </li>
-    {% else %}
-    <li>No tasks yet.</li>
-    {% endfor %}
-</ul>
+<div class="card">
+    <h2>Current Tasks</h2>
+    <ul class="task-list">
+        {% for task in tasks %}
+        <li>
+            <div class="task-title">{{ task.name }}</div>
+            <div class="task-meta">
+                Priority: {{ task.priority }} |
+                Duration: {{ task.duration }} mins |
+                Energy: {{ task.energy }} |
+                Deadline: {{ task.deadline }}
+            </div>
+        </li>
+        {% else %}
+        <li>No tasks yet.</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
+

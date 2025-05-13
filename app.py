@@ -1,18 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for
-import json
 import os
+import json
+from utils.calendar_api import GoogleCalendarAPI
 
 app = Flask(__name__)
 DATA_FILE = "data/tasks.json"
 
-# Load tasks from file
 def load_tasks():
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r") as f:
             return json.load(f)
     return []
 
-# Save tasks to file
 def save_tasks(tasks):
     with open(DATA_FILE, "w") as f:
         json.dump(tasks, f, indent=4)
@@ -39,9 +38,16 @@ def add_task():
 @app.route("/schedule")
 def schedule():
     tasks = load_tasks()
-    # Placeholder for integration with Dev 2
-    return render_template("schedule.html", schedule=tasks)
+    event_list = []
+
+    try:
+        calendar = GoogleCalendarAPI()
+        events = calendar.get_upcoming_events()
+        event_list = [calendar.format_event(event) for event in events]
+    except Exception as e:
+        event_list = [f"Error: {e}"]
+
+    return render_template("schedule.html", schedule=tasks, events=event_list)
 
 if __name__ == "__main__":
     app.run(debug=True)
-

@@ -1,11 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Smart Schedule (Mock View)</h2>
-<ul>
-    {% for task in schedule %}
-    <li>{{ task.name }} - Duration: {{ task.duration }} mins</li>
-    {% else %}
-    <li>No schedule available.</li>
-    {% endfor %}
-</ul>
+<div class="card">
+    <h2>Smart Task Schedule</h2>
+    <ul class="task-list">
+        {% for task in schedule %}
+        <li>
+            <div class="task-title">{{ task.name }}</div>
+            <div class="task-meta">Duration: {{ task.duration }} mins | Priority: {{ task.priority }}</div>
+        </li>
+        {% else %}
+        <li>No tasks scheduled.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h2>Upcoming Calendar Events</h2>
+    <ul class="task-list">
+        {% for event in events %}
+        <li>{{ event }}</li>
+        {% else %}
+        <li>No upcoming events found.</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

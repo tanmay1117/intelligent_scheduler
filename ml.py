@@ -19,10 +19,7 @@ def find_free_slots(events, start_time, end_time):
     for event in events:
         start = event["start"].get("dateTime", event["start"].get("date"))
         end = event["end"].get("dateTime", event["end"].get("date"))
-        try:
-            busy.append((datetime.datetime.fromisoformat(start), datetime.datetime.fromisoformat(end)))
-        except Exception as e:
-            print(f"[WARN] Skipping malformed event: {e}")
+        busy.append((datetime.datetime.fromisoformat(start), datetime.datetime.fromisoformat(end)))
 
     busy.sort()
     current = start_time
@@ -57,11 +54,10 @@ def assign_tasks_to_slots(tasks, free_slots):
     return scheduled
 
 
-def optimize_tasks(task_dicts, events, start_time, end_time):
-    # Convert task dicts to Task objects
-    tasks = [
-        Task(t["name"], t["priority"], t["duration"], t["energy"], t["deadline"])
-        for t in task_dicts
-    ]
-    free_slots = find_free_slots(events, start_time, end_time)
+# ✅ ADD THIS FUNCTION TO FIX YOUR IMPORT ERROR
+def optimize_tasks(task_dicts, calendar_events):
+    tasks = [Task(**task) for task in task_dicts]
+    now = datetime.datetime.now()
+    end_of_day = now.replace(hour=23, minute=59, second=59)
+    free_slots = find_free_slots(calendar_events, now, end_of_day)
     return assign_tasks_to_slots(tasks, free_slots)
